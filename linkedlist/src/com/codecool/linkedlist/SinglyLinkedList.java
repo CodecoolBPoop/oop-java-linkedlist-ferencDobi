@@ -16,6 +16,7 @@ public class SinglyLinkedList<T> {
     }
 
     private SinglyLinkedListNode<T> traverseTo(int index) {
+        if (index < 0) throw new IllegalArgumentException();
         SinglyLinkedListNode<T> pointer = head;
         for (int i = 0; i < index; i++) {
             if (!pointer.hasNext()) throw new ArrayIndexOutOfBoundsException(index);
@@ -36,6 +37,7 @@ public class SinglyLinkedList<T> {
     }
 
     void remove(int index) {
+        if (index == 0) head = head.next();
         SinglyLinkedListNode<T> pointer = traverseTo(index - 1);
         pointer.setNext(pointer.next().next());
     }
