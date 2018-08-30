@@ -1,14 +1,37 @@
 package com.codecool.linkedlist;
 
 public class SinglyLinkedList<T> {
-    SinglyLinkedListNode<T> head;
-    SinglyLinkedListNode<T> tail;
-    int length;
+    private SinglyLinkedListNode<T> head;
+    private SinglyLinkedListNode<T> tail;
+    private int length;
+
+    SinglyLinkedList() {
+        head = tail = null;
+        length = 0;
+    }
+
+    SinglyLinkedList(T data) {
+        this();
+        append(data);
+    }
+
+    SinglyLinkedList(T[] dataArray) {
+        this();
+        append(dataArray);
+    }
+
+    int size() {
+        return length;
+    }
 
     void append(T data) {
         SinglyLinkedListNode<T> node = new SinglyLinkedListNode<>(data);
         if (head == null) head = tail = node;
-        else tail.setNext(node);
+        else {
+            tail.setNext(node);
+            tail = tail.next();
+        }
+        length++;
     }
 
     void append(T[] dataArray) {
@@ -17,11 +40,11 @@ public class SinglyLinkedList<T> {
 
     private SinglyLinkedListNode<T> traverseTo(int index) {
         if (index < 0) throw new IllegalArgumentException();
+        else if (index >= length) throw new ArrayIndexOutOfBoundsException(index);
+
         SinglyLinkedListNode<T> pointer = head;
-        for (int i = 0; i < index; i++) {
-            if (!pointer.hasNext()) throw new ArrayIndexOutOfBoundsException(index);
-            pointer = pointer.next();
-        }
+        for (int i = 0; i < index; i++) pointer = pointer.next();
+
         return pointer;
     }
 
@@ -34,16 +57,23 @@ public class SinglyLinkedList<T> {
         SinglyLinkedListNode<T> next = pointer.next();
         pointer.setNext(new SinglyLinkedListNode<>(data));
         pointer.next().setNext(next);
+        length++;
     }
 
     void remove(int index) {
         if (index == 0) head = head.next();
-        SinglyLinkedListNode<T> pointer = traverseTo(index - 1);
-        pointer.setNext(pointer.next().next());
+        else {
+            SinglyLinkedListNode<T> pointer = traverseTo(index - 1);
+            pointer.setNext(pointer.next().next());
+        }
+        length--;
     }
 
-    void remove(T data) {
-        remove(find(data));
+    boolean remove(T data) {
+        int index = find(data);
+        if (index < 0) return false;
+        remove(index);
+        return true;
     }
 
     int find(T data) {
