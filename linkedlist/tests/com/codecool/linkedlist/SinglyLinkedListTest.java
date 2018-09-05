@@ -16,8 +16,19 @@ class SinglyLinkedListTest {
     }
 
     @Test
-    void testSize() {
+    void testSizeForEmptyConstructor() {
+        assertEquals(0, new SinglyLinkedList<Integer>().size());
+    }
+
+    @Test
+    void testSizeForSingleDataConstructor() {
+        assertEquals(1, new SinglyLinkedList<>(7).size());
+    }
+
+    @Test
+    void testSizeForDataArrayConstructor() {
         assertEquals(3, sll.size());
+        assertEquals(4, slli.size());
     }
 
     @Test
@@ -28,7 +39,7 @@ class SinglyLinkedListTest {
     }
 
     @Test
-    void testReplace() {
+    void testSetItemAt() {
         sll.setItemAt("2", 1);
         slli.setItemAt(7, 0);
         assertEquals("2", sll.getItemAt(1));
@@ -37,12 +48,17 @@ class SinglyLinkedListTest {
     }
 
     @Test
-    void testAppend() {
-        slli = new SinglyLinkedList<>(3);
+    void testAppendOneElement() {
         slli.append(4);
+        assertEquals(5, slli.size());
+        assertEquals(new Integer(4), slli.getItemAt(4));
+    }
+
+    @Test
+    void testAppendMultipleElements() {
         slli.append(new Integer[] { 1, 5 });
-        assertEquals(4, slli.size());
-        assertEquals(new Integer(1), slli.getItemAt(2));
+        assertEquals(6, slli.size());
+        assertEquals(new Integer(5), slli.getItemAt(5));
     }
 
     @Test
@@ -58,7 +74,7 @@ class SinglyLinkedListTest {
     }
 
     @Test
-    void testOutOfBoundsThrowsException() {
+    void testOutOfBoundsIndexThrowsException() {
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> slli.getItemAt(5));
     }
 
