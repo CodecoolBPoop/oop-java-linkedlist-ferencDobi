@@ -1,5 +1,7 @@
 package com.codecool.linkedlist;
 
+import java.util.stream.Stream;
+
 public class SinglyLinkedList<T> {
     private SinglyLinkedListNode<T> head;
     private SinglyLinkedListNode<T> tail;
@@ -39,7 +41,7 @@ public class SinglyLinkedList<T> {
     }
 
     private SinglyLinkedListNode<T> traverseTo(int index) {
-        if (index < 0) throw new IllegalArgumentException();
+        if (index < 0) throw new IllegalArgumentException("Illegal argument: negative index");
         else if (index >= length) throw new ArrayIndexOutOfBoundsException(index);
 
         SinglyLinkedListNode<T> pointer = head;
@@ -89,5 +91,21 @@ public class SinglyLinkedList<T> {
             i++;
         }
         return i;
+    }
+
+    Stream<T> stream() {
+        if (head == null) return Stream.empty();
+
+        Stream.Builder<T> sb = Stream.builder();
+        SinglyLinkedListNode<T> pointer = head;
+
+        sb.add(pointer.get());
+
+        while (pointer.hasNext()) {
+            pointer = pointer.next();
+            sb.add(pointer.get());
+        }
+
+        return sb.build();
     }
 }

@@ -70,12 +70,14 @@ class SinglyLinkedListTest {
 
     @Test
     void testNegativeIndexThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> slli.getItemAt(-5));
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> slli.getItemAt(-5));
+        assertEquals("Illegal argument: negative index", exception.getMessage());
     }
 
     @Test
     void testOutOfBoundsIndexThrowsException() {
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> slli.getItemAt(5));
+        Throwable exception = assertThrows(ArrayIndexOutOfBoundsException.class, () -> slli.getItemAt(5));
+        assertEquals("Array index out of range: 5", exception.getMessage());
     }
 
     @Test
@@ -99,5 +101,11 @@ class SinglyLinkedListTest {
         assertTrue(slli.remove(new Integer(6)));
         assertEquals(new Integer(6), slli.getItemAt(0));
         assertEquals(new Integer(12), slli.getItemAt(1));
+    }
+
+    @Test
+    void testStream() {
+        assertEquals(29, slli.stream().mapToInt(n -> n).sum());
+        assertTrue(sll.stream().anyMatch(s -> s.equals("two")));
     }
 }
