@@ -28,6 +28,15 @@ class SinglyLinkedListTest {
     }
 
     @Test
+    void testReplace() {
+        sll.setItemAt("2", 1);
+        slli.setItemAt(7, 0);
+        assertEquals("2", sll.getItemAt(1));
+        assertEquals(new Integer(7), slli.getItemAt(0));
+        assertEquals(4, slli.size());
+    }
+
+    @Test
     void testAppend() {
         slli = new SinglyLinkedList<>(3);
         slli.append(4);

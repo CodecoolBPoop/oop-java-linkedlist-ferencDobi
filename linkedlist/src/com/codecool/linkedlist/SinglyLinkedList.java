@@ -52,6 +52,10 @@ public class SinglyLinkedList<T> {
         return traverseTo(index).get();
     }
 
+    void setItemAt(T newData, int index) {
+        traverseTo(index).set(newData);
+    }
+
     void insert(T data, int index) {
         SinglyLinkedListNode<T> pointer = traverseTo(index - 1);
         SinglyLinkedListNode<T> next = pointer.next();
