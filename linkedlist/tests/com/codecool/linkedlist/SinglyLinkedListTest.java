@@ -1,13 +1,16 @@
 package com.codecool.linkedlist;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.DynamicTest.*;
 
 class SinglyLinkedListTest {
     private SinglyLinkedList<String> sll;
@@ -19,20 +22,28 @@ class SinglyLinkedListTest {
         slli = new SinglyLinkedList<>(new Integer[] { 6, 6, 12, 5 });
     }
 
-    @Test
-    void testSizeForEmptyConstructor() {
-        assertEquals(0, new SinglyLinkedList<Integer>().size());
-    }
-
-    @Test
-    void testSizeForSingleDataConstructor() {
-        assertEquals(1, new SinglyLinkedList<>(7).size());
-    }
-
-    @Test
-    void testSizeForDataArrayConstructor() {
-        assertEquals(3, sll.size());
-        assertEquals(4, slli.size());
+    @TestFactory
+    DynamicTest[] testSize() {
+        return new DynamicTest[] {
+                dynamicTest("testSizeForEmptyConstructor()",
+                        () -> assertEquals(0, new SinglyLinkedList<Integer>().size())),
+                dynamicTest("testSizeForSingleDataConstructor()",
+                        () -> assertEquals(1, new SinglyLinkedList<>(Math.random()).size())),
+                dynamicTest("testSizeForDataArrayConstructor()",
+                        () -> assertEquals(3, sll.size())),
+                dynamicTest("testSizeAfterAppending()",
+                        () -> {
+                    slli.append(new Integer[] { 77, 128, 99 });
+                    assertEquals(7, slli.size());
+                        }),
+                dynamicTest("testSizeAfterRemoving()",
+                        () -> {
+                    slli.remove(6);
+                    slli.remove(new Integer(77));
+                    slli.remove(new Integer(127));
+                    assertEquals(5, slli.size());
+                        })
+        };
     }
 
     @Test
