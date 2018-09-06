@@ -2,6 +2,10 @@ package com.codecool.linkedlist;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -108,4 +112,15 @@ class SinglyLinkedListTest {
         assertEquals(29, slli.stream().mapToInt(n -> n).sum());
         assertTrue(sll.stream().anyMatch(s -> s.equals("two")));
     }
+
+    @ParameterizedTest
+    @MethodSource("stringProvider")
+    void testStreamElements(String argument) {
+        assertTrue(argument.matches("one|two|three"));
+    }
+
+    private static Stream<String> stringProvider() {
+        return new SinglyLinkedList<>(new String[] {"one", "two", "three"}).stream();
+    }
+
 }
